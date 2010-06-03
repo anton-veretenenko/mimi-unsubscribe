@@ -3,6 +3,9 @@
 	require_once 'MadMimi.class.php';
 	$mimi = new MadMimi('api username', 'api key', false);
 
+	// show Suppresed pseudo list to suppress/unsuppress user
+	$admin_mode = false;
+	
 	// page title
 	$title = 'Title';
 	// custom page logo, for example your company logo
