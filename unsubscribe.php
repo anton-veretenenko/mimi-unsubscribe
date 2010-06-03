@@ -34,7 +34,7 @@
 				foreach ($lists as $id => $name) {
 					if ($edit_lists[$id] === '0' && !empty($user_lists[$id])) {
 						// process unsubscribe
-						$mimi->RemoveUser($email, $name, true);
+						$mimi->RemoveUser($email, $name);
 					} else
 					if ($edit_lists[$id] === '1' && empty($user_lists[$id])) {
 						// process subscribe
