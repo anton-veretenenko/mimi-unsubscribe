@@ -7,7 +7,7 @@
 	$title = 'Title';
 
 	// show all lists on unsubscribe page
-	$show_all_lists = false;
+	$show_all_lists = true;
 
 	// if $show_all_lists == false then show this lists only
 	// i.e. $show_lists[] = 'List name';
