@@ -99,6 +99,19 @@
 						</td>
            </tr>
 					<?php } ?>
+					<?php if ($admin_mode) { ?>
+					<tr>
+						<td>
+							<input name="suppressed" type="radio" value="1" <?php if ($user_suppressed) { ?>checked="checked"<?php } ?> />
+						</td>
+						<td>
+							<input name="suppressed" type="radio" value="0" <?php if (!$user_suppressed) { ?>checked="checked"<?php } ?> />
+						</td>
+						<td>
+							Suppressed
+						</td>
+           </tr>
+					<?php } ?>
         	<tr>
 						<td colspan="3">
                 <p>Subscription will be updated for this email address</p>
