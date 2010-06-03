@@ -1,5 +1,7 @@
 <?php
 
+	session_start();
+
 	require_once 'MadMimi.class.php';
 	$mimi = new MadMimi('api username', 'api key', false);
 

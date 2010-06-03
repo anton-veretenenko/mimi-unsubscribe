@@ -77,7 +77,7 @@
 							</th>
 						</tr>
 						<?php } ?>
-						<?php if (empty($error)) { ?>
+						<?php if ((empty($error) && (!$admin_mode)) || ($admin_mode && empty($show_form))) { ?>
 						<tr class="underlined">
 							<th width="25%">Subscribed</th>
 							<th width="25%">Unsubscribed</th>
@@ -85,7 +85,7 @@
 						</tr>
 						<?php } ?>
 					</thead>
-					<?php if (empty($error)) { ?>
+					<?php if ((empty($error) && (!$admin_mode)) || ($admin_mode && empty($show_form))) { ?>
 					<?php foreach ($lists as $id => $name) { ?>
 					<tr>
 						<td>
@@ -122,15 +122,15 @@
         	</tr>
         	<tr>
 						<td class="unsubscribe" colspan="3">
-							<input id="email" name="email" type="text" value="<?php echo $email; ?>" readonly="readonly" />
+							<input id="email" name="email" type="text" value="<?php echo $email; ?>" <?php if (!$admin_mode) { ?>readonly="readonly"<?php } ?> />
         		</td>
         	</tr>
           <tr>
 						<td colspan="3">
-        		  <input name="commit" type="submit" value="Save" />
+        		  <input name="commit" type="submit" value="Save<?php if ($admin_mode) { ?> or Change email<?php } ?>" />
         		</td>
       	  </tr>
-					<?php } else {
+					<?php } else if (!empty($error)) {
 						if ($error == 'not-found') {
 							$error = 'The email you are trying to change subscription option is not in our database.';
 						}
@@ -140,6 +140,26 @@
 							<p><?php echo $error; ?></p>
 						</td>
 					</tr>
+					<?php } ?>
+					<?php if ($admin_mode && (!empty($show_form) || !empty($error))) { ?>
+					<tr>
+        		<td colspan="3">
+                <p>Enter email address</p>
+        		</td>
+	        </tr>
+        	<tr>
+        		<td colspan="3"></td>
+        	</tr>
+        	<tr>
+        		<td colspan="3" class="unsubscribe">
+          		<input id="email" name="email" type="text" value="<?php echo $email; ?>" />
+        		</td>
+        	</tr>
+          <tr>
+        		<td>
+        		  <input name="commit" type="submit" value="Edit subscriptions" />
+        		</td>
+      	  </tr>
 					<?php } ?>
 		    </table>
 		  </td>
