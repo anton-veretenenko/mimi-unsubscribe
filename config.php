@@ -5,6 +5,9 @@
 
 	// page title
 	$title = 'Title';
+	// custom page logo, for example your company logo
+	// just image url/file
+	$logo = '';
 
 	// show all lists on unsubscribe page
 	$show_all_lists = true;
