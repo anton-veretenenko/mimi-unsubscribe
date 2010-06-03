@@ -64,7 +64,7 @@
 </head>
 	<body>
 
-<form action="unsubscribe.php" method="post">
+<form action="" method="post">
 <table id="wrapper" width="520" height="100%" cellspacing="0" cellpadding="0">
 	 <tr>
 	    <td align="center">
