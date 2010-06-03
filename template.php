@@ -25,11 +25,12 @@
 		padding: 10px 20px 20px 20px;
 	}
 
-	table#inner thead th {
+	table#inner thead tr.underlined th {
 		border-bottom: 1px solid #ccc;
 		text-align: left;
 		padding-bottom: 5px;
 		padding-right: 10px;
+		padding-top: 20px;
 	}
 
 	table#inner td {
@@ -69,12 +70,22 @@
 	    <td align="center">
 		    <table id="inner" width="520" cellspacing="0" bgcolor="#FFFFFF">
 					<thead>
+						<?php if (!empty($logo)) { ?>
 						<tr>
+							<th colspan="3">
+								<img src="<?php echo $logo; ?>" alt="" />
+							</th>
+						</tr>
+						<?php } ?>
+						<?php if (empty($error)) { ?>
+						<tr class="underlined">
 							<th width="25%">Subscribed</th>
 							<th width="25%">Unsubscribed</th>
 							<th>List Name</th>
 						</tr>
+						<?php } ?>
 					</thead>
+					<?php if (empty($error)) { ?>
 					<?php foreach ($lists as $id => $name) { ?>
 					<tr>
 						<td>
@@ -106,6 +117,17 @@
         		  <input name="commit" type="submit" value="Save" />
         		</td>
       	  </tr>
+					<?php } else {
+						if ($error == 'not-found') {
+							$error = 'The email you are trying to change subscription option is not in our database.';
+						}
+					?>
+					<tr>
+						<td colspan="3">
+							<p><?php echo $error; ?></p>
+						</td>
+					</tr>
+					<?php } ?>
 		    </table>
 		  </td>
     </tr>
