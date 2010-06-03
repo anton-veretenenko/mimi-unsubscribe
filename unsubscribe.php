@@ -10,7 +10,9 @@
 		}
 	}
 
-	if (!empty($args) && !empty($args['email']) && $mimi->Authenticate() && $mimi->HaveUser($args['email'])) {
+	if (!empty($args) && !empty($args['email']) &&
+			(($mimi->Authenticate() && $mimi->HaveUser($args['email'])) ||
+			($admin_mode && $mimi->IsSuppressed($args['email'])))) {
 		if (!empty($_SESSION['email'])) {
 			$email = $_SESSION['email'];
 		} else {
@@ -39,8 +41,6 @@
 					if ($edit_lists[$id] === '1' && empty($user_lists[$id])) {
 						// process subscribe
 						$user = array();
-						$user['firstname'] = $current_user['first_name'];
-						$user['lastname'] = $current_user['lastname'];
 						$user['email'] = $email;
 						$user['add_list'] = $name;
 						$mimi->AddUser($user);
@@ -55,6 +55,34 @@
 				$error = 'not-found';
 			}
 		}
+
+		// admin mode handling suppressed list
+		if ($admin_mode) {
+			$user_suppressed = $mimi->IsSuppressed($email);
+			if (isset($args['suppressed'])) {
+				$suppressed = intval($args['suppressed']);
+				if ($suppressed == 0 && $user_suppressed) {
+					// unsuppress user
+					$user = array();
+					$user['email'] = $email;
+					$user['opt_out'] = 0;
+					$mimi->AddUser($user);
+				} else
+				if ($suppressed == 1 && !$user_suppressed) {
+					// suppress user
+					$user = array();
+					$user['email'] = $email;
+					$user['opt_out'] = 1;
+					$mimi->AddUser($user);
+				}
+			}
+			$user_suppressed = $mimi->IsSuppressed($email);
+			if ($user_suppressed) {
+				$lists = array();
+				$user_lists = array();
+			}
+		}
+		
 	} else {
 		// if no data posted or mimi authentication failed or
 		// mimi have not such email then show error
