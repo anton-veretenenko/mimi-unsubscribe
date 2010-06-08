@@ -12,7 +12,7 @@
 	}
 
 	if ((!empty($args) && !empty($args['email'])) &&
-			(($mimi->Authenticate() && $mimi->HaveUser($args['email'])) ||
+			(($mimi->Authenticate() && ($mimi->HaveUser($args['email']) || $mimi->IsSuppressed($args['email']))) ||
 			($admin_mode && $mimi->IsSuppressed($args['email'])))) {
 		if (!empty($_SESSION['email'])) {
 			$email = $_SESSION['email'];
@@ -21,6 +21,7 @@
 			$_SESSION['email'] = $email;
 		}
 		$all_lists = new SimpleXMLElement($mimi->Lists(true));
+		$user_suppressed = $mimi->IsSuppressed($email);
 		$user_lists = prepareLists(new SimpleXMLElement($mimi->Memberships($email)));
 		if ($show_all_lists) {
 			$lists = prepareLists($all_lists);
@@ -35,6 +36,14 @@
 				$edit_lists = $args['audience_list_ids'];
 				$current_user = new SimpleXMLElement($mimi->Search($email));
 				// process subscribe and unsubscribe
+				// but before we start
+				if ($user_suppressed) {
+					// if user suppressed, let's unsuppress him
+					$user = array();
+					$user['email'] = $email;
+					$user['opt_out'] = 0;
+					$mimi->AddUser($user);
+				}
 				foreach ($lists as $id => $name) {
 					if ($edit_lists[$id] === '0' && !empty($user_lists[$id])) {
 						// process unsubscribe
@@ -74,11 +83,6 @@
 							$user['opt_out'] = 1;
 							$mimi->AddUser($user);
 						}
-					}
-					$user_suppressed = $mimi->IsSuppressed($email);
-					if ($user_suppressed) {
-						$lists = array();
-						$user_lists = array();
 					}
 				} else {
 					$error = 'not-found';
