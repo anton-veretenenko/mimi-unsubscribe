@@ -86,13 +86,19 @@
 						<?php } ?>
 					</thead>
 					<?php if ((empty($error) && (!$admin_mode)) || ($admin_mode && empty($show_form))) { ?>
-					<?php foreach ($lists as $id => $name) { ?>
+					<?php foreach ($lists as $id => $name) {
+									list($id_clear, $mimi_acc) = explode('_', $id);
+									$subscribed = false;
+									if (!empty($user_lists[$mimi_acc][$id])) {
+										$subscribed = true;
+									}
+					?>
 					<tr>
 						<td>
-							<input name="audience_list_ids[<?php echo $id; ?>]" type="radio" value="1" <?php if (!empty($user_lists[$id])) { ?>checked="checked"<?php } ?> />
+							<input name="audience_list_ids[<?php echo $id; ?>]" type="radio" value="1" <?php if ($subscribed) { ?>checked="checked"<?php } ?> />
 						</td>
 						<td>
-							<input name="audience_list_ids[<?php echo $id; ?>]" type="radio" value="0" <?php if (empty($user_lists[$id])) { ?>checked="checked"<?php } ?> />
+							<input name="audience_list_ids[<?php echo $id; ?>]" type="radio" value="0" <?php if (!$subscribed) { ?>checked="checked"<?php } ?> />
 						</td>
 						<td>
 							<?php echo $name; ?>
