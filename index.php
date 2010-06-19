@@ -1,6 +1,6 @@
 <?php
 
-	require_once 'config_web.php';
+	require_once 'config.php';
 
 	$email = '';
 	$args = $_POST;
