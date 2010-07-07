@@ -1,6 +1,6 @@
 <?php
 
-	require_once 'config.php';
+	require_once 'config_web.php';
 
 	$email = '';
 	$args = $_POST;
@@ -9,6 +9,15 @@
 		if (!empty($_SESSION['email'])) {
 			unset($_SESSION['email']);
 		}
+	}
+	if (!empty($_GET['p'])) {
+		$args['p'] = intval($_GET['p']);
+	}
+
+	if (!empty($args['email']) && empty($args['p'])) {
+		$email = addslashes($args['email']);
+		include 'template_preload.php';
+		die();
 	}
 
 	if ((!empty($args) && !empty($args['email'])) &&

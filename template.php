@@ -65,6 +65,7 @@
 	<body>
 
 <form action="" method="post">
+	<input type="hidden" name="p" value="1" />
 <table id="wrapper" width="520" height="100%" cellspacing="0" cellpadding="0">
 	 <tr>
 	    <td align="center">
