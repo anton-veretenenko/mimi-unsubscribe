@@ -9,6 +9,9 @@
 
 	// show Suppresed pseudo list to suppress/unsuppress user
 	$admin_mode = false;
+
+	// if user was suppressed then suppress him back after getting his lists
+	$oneclickunsub = true;
 	
 	// page title
 	$title = 'Title';

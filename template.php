@@ -140,6 +140,9 @@
 					<?php } else if (!empty($error)) {
 						if ($error == 'not-found') {
 							$error = 'The email you are trying to change subscription option is not in our database.';
+						} else
+						if ($error == 'success') {
+							$error = 'Your Email Preferences are Successfully Updated.<br />Thank you';
 						}
 					?>
 					<tr>

@@ -37,6 +37,14 @@
 		$user_lists['2'] = prepareLists(new SimpleXMLElement($mimi_2->Memberships($email)), '2');
 		$lists = prepareListsByNames($lists_main, $lists_2, $show_lists);
 
+		if ($user_suppressed && !$oneclickunsub && !$admin_mode) {
+			// if user suppressed, let's unsuppress him if oneclickunsub = false
+			$user = array();
+			$user['email'] = $email;
+			$user['opt_out'] = 0;
+			$mimi_main->AddUser($user);
+		}
+
 		$email = $_SESSION['email'];
 		$email2 = addslashes($args['email']);
 		if (strcmp($email, $email2) === 0) {
@@ -78,6 +86,11 @@
 				}
 				$user_lists['main'] = prepareLists(new SimpleXMLElement($mimi_main->Memberships($email)), 'main');
 				$user_lists['2'] = prepareLists(new SimpleXMLElement($mimi_2->Memberships($email)), '2');
+				if (!$admin_mode) {
+					// show success message
+					$error = 'success';
+					$_SESSION['email'] = '';
+				}
 			}
 
 			// admin mode handling suppressed list
